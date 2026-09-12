@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MTD for Income Tax 2026/27: quarterly update deadlines, thresholds & a free checker | QuarterlyReady</title>
+<meta name="description" content="Free checker: are you in Making Tax Digital for Income Tax from April 2026, 2027 or 2028? Plus every 2026/27 quarterly update deadline and the spreadsheet rules HMRC actually allows.">
+<link rel="canonical" href="https://remoteworksdesing.github.io/quarterlyready/">
+<meta property="og:title" content="MTD for Income Tax 2026/27 – deadlines, thresholds and a free checker">
+<meta property="og:description" content="Are you in MTD from April 2026? Check in 10 seconds, then see every quarterly deadline for 2026/27.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"When are the MTD for Income Tax quarterly update deadlines in 2026/27?","acceptedAnswer":{"@type":"Answer","text":"7 August 2026 (period to 5 July), 7 November 2026 (to 5 October), 7 February 2027 (to 5 January) and 7 May 2027 (to 5 April). If you elect calendar quarters the periods end 30 June, 30 September, 31 December and 31 March, with the same deadlines."}},
+{"@type":"Question","name":"Who has to use Making Tax Digital for Income Tax from April 2026?","acceptedAnswer":{"@type":"Answer","text":"Sole traders and landlords registered for Self Assessment whose qualifying income (gross self-employment turnover plus gross property income) was over £50,000 on their 2024/25 tax return. The threshold falls to £30,000 in April 2027 and £20,000 in April 2028."}},
+{"@type":"Question","name":"Can I keep using a spreadsheet under MTD?","acceptedAnswer":{"@type":"Answer","text":"Yes. HMRC says you can continue to use spreadsheets for your records, but you need bridging or MTD-compatible software that links to the spreadsheet to send your quarterly updates. The link must be digital (cell links, CSV import) – you cannot retype totals."}},
+{"@type":"Question","name":"Are quarterly updates cumulative?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each update covers the tax year to date, so a mistake in an earlier quarter is corrected automatically in the next update."}}
+]}
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="wrap" style="display:flex;justify-content:space-between;align-items:center">
+  <div class="brand">Quarterly<span>Ready</span></div>
+  <nav><a href="#checker">Checker</a><a href="#deadlines">Deadlines</a><a href="#spreadsheet">Spreadsheets</a><a href="#guides">Guides</a><a href="#tracker">Tracker</a><a href="#faq">FAQ</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <h1>Making Tax Digital for Income Tax 2026/27: are you in, and when is your next update due?</h1>
+  <p>A plain-English guide for sole traders and landlords, with every quarterly deadline for the 2026/27 tax year and a 10-second checker. Sources: HMRC guidance on gov.uk, linked throughout.</p>
+
+  <div class="checker" id="checker">
+    <h2>Free checker: when does MTD for Income Tax apply to me?</h2>
+    <div class="note">Enter the <em>gross</em> figures (before expenses) from your most recent Self Assessment return. Joint property: your share only.</div>
+    <div class="row">
+      <div class="field"><label for="se">Self-employment turnover (£)</label><input type="number" id="se" min="0" step="100" placeholder="e.g. 38000"></div>
+      <div class="field"><label for="pr">Gross property income (£)</label><input type="number" id="pr" min="0" step="100" placeholder="e.g. 15000"></div>
+      <div class="field"><label for="basis">Quarter basis</label><select id="basis"><option value="standard">Standard (6th–5th)</option><option value="calendar">Calendar (1st–month end)</option></select></div>
+    </div>
+    <div class="row" style="align-items:center"><button class="btn" id="go">Check</button><span class="note">Nothing is sent anywhere – the sum runs in your browser.</span></div>
+    <div class="result" id="result"></div>
+  </div>
+</div></div>
+
+<section id="deadlines"><div class="wrap">
+  <h2>Quarterly update deadlines for 2026/27</h2>
+  <p>Every update is <strong>cumulative</strong> – it covers the tax year to date – and is due one month and seven days after the period ends. You send one update per business plus one for your whole property business. No tax is paid at these dates.</p>
+  <table>
+    <tr><th>Update</th><th>Standard period</th><th>Calendar period (if elected)</th><th>Deadline</th></tr>
+    <tr><td>Q1</td><td>6 Apr – 5 Jul 2026</td><td>1 Apr – 30 Jun 2026</td><td><strong>7 August 2026</strong></td></tr>
+    <tr><td>Q2</td><td>6 Apr – 5 Oct 2026</td><td>1 Apr – 30 Sep 2026</td><td><strong>7 November 2026</strong></td></tr>
+    <tr><td>Q3</td><td>6 Apr 2026 – 5 Jan 2027</td><td>1 Apr – 31 Dec 2026</td><td><strong>7 February 2027</strong></td></tr>
+    <tr><td>Q4</td><td>6 Apr 2026 – 5 Apr 2027</td><td>1 Apr 2026 – 31 Mar 2027</td><td><strong>7 May 2027</strong></td></tr>
+    <tr><td>Final return &amp; payment</td><td colspan="2">Tax year 2026/27</td><td><strong>31 January 2028</strong></td></tr>
+  </table>
+  <p class="note">Source: <a href="https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates">gov.uk – Send quarterly updates</a>. The calendar election is made in your software before your first update of the year and cannot be changed once an update has been sent. HMRC has confirmed no penalty points for late quarterly updates in 2026/27 (<a href="https://www.gov.uk/guidance/penalties-for-making-tax-digital-for-income-tax">penalties guidance</a>), but late final returns and late payments are still penalised.</p>
+
+  <h3>Who is mandated, and when</h3>
+  <div class="cards">
+    <div class="card"><h3>April 2026</h3>Qualifying income over <strong>£50,000</strong> on the 2024/25 return. Around 436,000 first-quarter updates were filed by mid-August 2026.</div>
+    <div class="card"><h3>April 2027</h3>Qualifying income over <strong>£30,000</strong> on the 2025/26 return.</div>
+    <div class="card"><h3>April 2028</h3>Qualifying income over <strong>£20,000</strong> on the 2026/27 return.</div>
+  </div>
+  <p class="note">"Qualifying income" is your gross self-employment turnover plus gross property income, before any expenses. Employment, pensions, dividends and partnership income do not count. Source: <a href="https://www.gov.uk/guidance/work-out-your-qualifying-income-for-making-tax-digital-for-income-tax">gov.uk – Work out your qualifying income</a>.</p>
+</div></section>
+
+<section id="spreadsheet" style="background:#fff"><div class="wrap">
+  <h2>Can I keep using a spreadsheet?</h2>
+  <p>Yes – and this is the part most people get wrong. HMRC's own guidance says you can continue to use spreadsheets for your records, provided you use <em>bridging software</em> (or other MTD-compatible software) that links to the spreadsheet to make the submission. Three rules:</p>
+  <ol>
+    <li><strong>Each transaction needs a date, an amount and a category</strong> – HMRC's category, not your own.</li>
+    <li><strong>Totals must reach your submission software by a digital link</strong>: linked cells, file import or CSV. Retyping figures by hand is not allowed.</li>
+    <li><strong>Below the £90,000 VAT threshold</strong> you may record just "income" and "expenses"; above it, full categories are compulsory. Full categories are accepted either way and make the year-end return easier.</li>
+  </ol>
+  <p class="note">Sources: <a href="https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/introduction">gov.uk – Using MTD for Income Tax</a> · <a href="https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/create-digital-records">Create digital records</a> · <a href="https://www.gov.uk/government/publications/update-notice-for-making-tax-digital-for-income-tax/making-tax-digital-for-income-tax-update-notice">Update Notice (category list)</a>.</p>
+  <h3>Bridging tools that accept a spreadsheet</h3>
+  <p>Examples, not endorsements: 123 Sheets, AbraTax, MTD Companion and MTDsorted all take an Excel or Google Sheets file. HMRC keeps the full list on its <a href="https://www.gov.uk/guidance/find-software-thats-compatible-with-making-tax-digital-for-income-tax">software finder</a>.</p>
+</div></section>
+
+<section id="tracker"><div class="wrap">
+  <h2>The spreadsheet that does the HMRC maths for you</h2>
+  <div class="product">
+    <div><img src="https://i.etsystatic.com/68014314/r/il/0fcf8e/8561177789/il_1588xN.8561177789_sfxe.jpg" alt="Quarterly Summary tab of the MTD Income Tax Tracker 2026/27 showing cumulative totals per HMRC category for Q1 to Q4"></div>
+    <div>
+      <h3 style="margin-top:0">MTD Income Tax Tracker 2026/27</h3>
+      <p>Log income, expenses and mileage once; get the cumulative totals HMRC asks for, per category, per quarter – with the deadline countdown built in. Sole traders and landlords, Excel and Google Sheets.</p>
+      <ul>
+        <li>HMRC's exact 2026/27 categories in dropdowns</li>
+        <li>Standard or calendar quarters – one switch</li>
+        <li>Up to 8 properties, joint ownership supported</li>
+        <li>Mileage at 55p / 25p / 24p with the 10,000-mile threshold tracked</li>
+        <li>Year-end: £1,000 allowance check and an indicative tax &amp; NIC figure</li>
+        <li>8-page Quick Start Guide &amp; cheat sheet (PDF)</li>
+      </ul>
+      <div class="price">£14.99 <small>instant download · single-user licence</small></div>
+      <div class="cta" style="margin-top:12px">
+        <a class="btn" href="https://www.etsy.com/listing/4573900723" rel="noopener">Buy on Etsy</a>
+        <a class="btn secondary" href="https://remoteworksia.gumroad.com/l/mtd-tracker-2026-27" rel="noopener">Buy on Gumroad</a>
+      </div>
+      <p class="note" style="margin-top:12px">Not HMRC-recognised or bridging software – it keeps your records and calculates the totals; you submit through your MTD software. Not tax advice.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="guides"><div class="wrap">
+  <h2>Guides</h2>
+  <div class="guides">
+    <a href="mtd-quarterly-update-deadlines-2026-27.html"><strong>Quarterly update deadlines 2026/27</strong>The four dates, what an update contains, calendar quarters, and what happens if you're late.</a>
+    <a href="spreadsheet-for-making-tax-digital.html"><strong>Can I use a spreadsheet for MTD?</strong>Yes – the three conditions HMRC attaches, digital links, bridging software, and five mistakes to avoid.</a>
+    <a href="mtd-landlords-property-categories.html"><strong>Landlords: the property categories explained</strong>What goes in each of the 13 categories, mortgage interest, joint lets, FHLs and the £1,000 allowance.</a>
+  </div>
+</div></section>
+
+<section id="faq" style="background:#fff"><div class="wrap">
+  <h2>FAQ</h2>
+  <details open><summary>Are quarterly updates cumulative?</summary><p>Yes. Each update covers the tax year to date. If you made a mistake in Q1, correct your records and the Q2 update carries the right figures – no resubmission needed.</p></details>
+  <details><summary>What if I have two businesses, or a business and rental property?</summary><p>One quarterly update per self-employed business, plus one for your entire UK property business. The tracker keeps self-employment and property as separate sources with separate summaries.</p></details>
+  <details><summary>Do I have to pay tax quarterly?</summary><p>No. Quarterly updates are information only. Tax is still paid by 31 January (with payments on account where they apply).</p></details>
+  <details><summary>I'm jointly letting a property – what do I report?</summary><p>Your share only. HMRC also lets jointly-let landlords send income only in the quarterly updates and add expenses in a re-sent Q4 update.</p></details>
+  <details><summary>What about furnished holiday lets?</summary><p>The FHL regime ended on 6 April 2025. Former FHLs are now part of your ordinary UK property business and use the same categories.</p></details>
+  <details><summary>Is the £1,000 trading / property allowance still available?</summary><p>Yes. You may deduct £1,000 instead of actual expenses for a source (never both). If you claim it, HMRC does not need your expense figures for that source.</p></details>
+</div></section>
+
+<footer><div class="wrap">
+  <p><strong>QuarterlyReady</strong> · Plain-English tools for Making Tax Digital. Nothing on this page is tax, accounting or legal advice; figures are those published by HMRC for 2026/27 at the time of writing (September 2026) and may change. HMRC is not affiliated with this site. <a href="https://www.etsy.com/shop/QuarterlyReadyUK" rel="noopener">Contact via Etsy</a></p>
+</div></footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('go'),res=document.getElementById('result');
+  function fmt(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});}
+  function nextDeadline(){
+    var t=new Date();t.setHours(0,0,0,0);
+    var y=t.getFullYear();
+    var list=[];
+    for(var yy=y-1;yy<=y+1;yy++){list.push([new Date(yy,7,7),'Q1'],[new Date(yy,10,7),'Q2'],[new Date(yy+1,1,7),'Q3'],[new Date(yy+1,4,7),'Q4']);}
+    list.sort(function(a,b){return a[0]-b[0];});
+    for(var i=0;i<list.length;i++){if(list[i][0]>=t){return {date:list[i][0],q:list[i][1],days:Math.round((list[i][0]-t)/86400000)};}}
+  }
+  btn.addEventListener('click',function(){
+    var se=parseFloat(document.getElementById('se').value)||0, pr=parseFloat(document.getElementById('pr').value)||0, basis=document.getElementById('basis').value;
+    var q=se+pr, html='';
+    if(q<=0){res.style.display='block';res.innerHTML='<p class="big warn">Enter at least one figure.</p>';return;}
+    var when, cls='ok';
+    if(q>50000){when='You are mandated from <strong>April 2026</strong> – you should already be sending quarterly updates for 2026/27.';cls='warn';}
+    else if(q>30000){when='You join from <strong>April 2027</strong> (based on your 2025/26 return). Nothing to send yet, but your 2026/27 records should already be kept digitally.';}
+    else if(q>20000){when='You join from <strong>April 2028</strong> (based on your 2026/27 return).';}
+    else{when='Below the announced thresholds – <strong>not mandated yet</strong>. You can join voluntarily, and your income may change, so keep clean digital records anyway.';}
+    var nd=nextDeadline();
+    html+='<p class="big '+cls+'">Qualifying income: £'+q.toLocaleString('en-GB')+'</p><p>'+when+'</p>';
+    html+='<p><strong>Next quarterly deadline:</strong> '+fmt(nd.date)+' ('+nd.q+', '+nd.days+' days away). '+(basis==='calendar'?'Calendar quarters: the period ends on the last day of June, September, December or March.':'Standard quarters: the period ends on the 5th of July, October, January or April.')+'</p>';
+    html+='<p class="note">Based on HMRC thresholds published for 2026, 2027 and 2028. Joint property counts your share only; employment, pensions and dividends are excluded. This is not tax advice.</p>';
+    res.style.display='block';res.innerHTML=html;
+  });
+})();
+</script>
+</body>
+</html>
