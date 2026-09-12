@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://remoteworksdesing.github.io/quarterlyready/sitemap.xml
