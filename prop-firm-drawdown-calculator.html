@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prop Firm Drawdown & Daily Loss Calculator – FTMO, Apex, Topstep, MFFU, FundedNext (free) | QuarterlyReady</title>
+<meta name="description" content="Free calculator: enter your prop-firm challenge balance and get the max-loss floor (static, trailing EOD, trailing intraday or locked), your buffer, today's daily-loss room, profit still needed and whether the consistency rule will delay you. 19 firm presets.">
+<link rel="canonical" href="https://remoteworksdesing.github.io/quarterlyready/prop-firm-drawdown-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Prop Firm Drawdown & Daily Loss Calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://remoteworksdesing.github.io/quarterlyready/prop-firm-drawdown-calculator.html","author":{"@type":"Organization","name":"QuarterlyReady"},"datePublished":"2026-09-16"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What is the difference between static and trailing drawdown?","acceptedAnswer":{"@type":"Answer","text":"Static drawdown fixes the max-loss floor at the starting balance minus the max loss, and it never moves. Trailing drawdown moves the floor up as your balance (end-of-day trailing) or your equity including open profit (intraday trailing) makes new highs. Some firms lock the trailing floor once it reaches the starting balance or starting balance plus $100."}},
+{"@type":"Question","name":"Does the daily loss limit include open trades?","acceptedAnswer":{"@type":"Answer","text":"At FTMO and FundedNext, yes: the daily loss is measured against the balance at the start of the trading day and includes floating (unrealised) losses. A trade that is deep in drawdown at the daily reset can breach the limit even if it later recovers."}},
+{"@type":"Question","name":"Does a consistency rule fail my challenge?","acceptedAnswer":{"@type":"Answer","text":"Usually not. Most consistency rules (best day no more than 40–55% of total profit) delay your pass or payout until other days have added enough profit for the best day to fall under the percentage. The calculator shows how much more profit you need."}},
+{"@type":"Question","name":"Are the presets guaranteed to match my firm?","acceptedAnswer":{"@type":"Answer","text":"No. They were checked against each firm's published rules in September 2026, but firms change rules and measure equity in their own way. Your firm's dashboard is always the final word; use the Custom preset if your plan differs."}}
+]}
+</script>
+<style>
+  .calc{background:var(--card);color:var(--text);border-radius:14px;padding:22px;box-shadow:0 12px 40px rgba(0,0,0,.25);max-width:860px}
+  .calc h2{margin:0 0 6px;font-size:20px;color:var(--navy)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:16px}
+  .kpi{background:#f2f7ff;border:1px solid #c9d8f2;border-radius:10px;padding:12px 14px}
+  .kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .kpi .v{font-size:22px;font-weight:bold;color:var(--navy);margin-top:2px}
+  .kpi .s{font-size:13px;color:var(--muted);margin-top:2px}
+  .kpi.ok .v{color:var(--ok)} .kpi.warn .v{color:var(--warn)} .kpi.amber .v{color:#b36b00}
+  .status{margin-top:16px;padding:14px 16px;border-radius:10px;font-weight:bold;font-size:18px;background:#eef3ff;color:var(--navy)}
+  .status.ok{background:#e6f4ea;color:var(--ok)} .status.warn{background:#fdecea;color:var(--warn)} .status.amber{background:#fff4e0;color:#b36b00}
+  .rules{font-size:13px;color:var(--muted);margin-top:10px}
+  .hero .calc label{color:var(--muted)}
+</style>
+</head>
+<body>
+<header><div class="wrap" style="display:flex;justify-content:space-between;align-items:center">
+  <div class="brand"><a href="index.html" style="color:#fff;text-decoration:none">Quarterly<span>Ready</span></a></div>
+  <nav><a href="index.html#guides">Guides</a><a href="#types">Drawdown types</a><a href="#tracker">Tracker</a></nav>
+</div></header>
+
+<div class="hero small"><div class="wrap">
+  <div class="breadcrumb"><a href="index.html">Home</a> › Trading tools › Drawdown calculator</div>
+  <h1>Prop Firm Drawdown &amp; Daily Loss Calculator</h1>
+  <p>Pick your firm, type your numbers, and see exactly where your max-loss floor is – static, trailing end-of-day, trailing intraday or locked – plus today's daily-loss room, profit still needed and the consistency-rule check. Free, no sign-up.</p>
+
+  <div class="calc" id="calc">
+    <h2>Your challenge right now</h2>
+    <div class="row">
+      <div class="field" style="flex:2 1 320px"><label for="preset">Firm / plan preset</label><select id="preset"></select></div>
+      <div class="field"><label for="initial">Starting balance</label><input type="number" id="initial" value="50000" min="1" step="100"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label for="balance">Current balance (closed trades)</label><input type="number" id="balance" value="51200" step="10"></div>
+      <div class="field"><label for="hwm">Highest end-of-day balance so far</label><input type="number" id="hwm" value="51500" step="10"></div>
+      <div class="field"><label for="peak">Highest equity ever (incl. open profit)</label><input type="number" id="peak" value="52100" step="10"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label for="daystart">Balance at start of today</label><input type="number" id="daystart" value="51400" step="10"></div>
+      <div class="field"><label for="openpl">Open P&amp;L right now (negative = loss)</label><input type="number" id="openpl" value="0" step="10"></div>
+      <div class="field"><label for="bestday">Best single day's profit</label><input type="number" id="bestday" value="900" step="10"></div>
+    </div>
+    <div class="row" id="customRow" style="display:none">
+      <div class="field"><label for="c_target">Profit target %</label><input type="number" id="c_target" value="10" step="0.5"></div>
+      <div class="field"><label for="c_daily">Daily loss % (0 = none)</label><input type="number" id="c_daily" value="5" step="0.5"></div>
+      <div class="field"><label for="c_max">Max loss %</label><input type="number" id="c_max" value="10" step="0.5"></div>
+      <div class="field"><label for="c_type">Drawdown type</label><select id="c_type"><option>Static</option><option>Trailing EOD</option><option>Trailing intraday</option></select></div>
+      <div class="field"><label for="c_lock">Lock at initial + $ (blank = no lock)</label><input type="number" id="c_lock" value="" step="10"></div>
+      <div class="field"><label for="c_cons">Consistency % (0 = none)</label><input type="number" id="c_cons" value="0" step="5"></div>
+    </div>
+    <div class="rules" id="rules"></div>
+    <div class="status" id="status"></div>
+    <div class="kpis" id="kpis"></div>
+    <p class="note" style="margin:14px 0 0">Presets checked against each firm's published rules in September 2026. Firms change rules and measure equity their own way – your firm's dashboard is the final word. Not affiliated with any firm. Not financial advice.</p>
+  </div>
+</div></div>
+
+<section><div class="wrap"><article>
+<p class="updated">Updated 16 September 2026 · Presets: FTMO, FundedNext, The5ers, MyFundedFutures, Apex, Topstep, E8, Funding Pips, Alpha Capital Group.</p>
+
+<h2 id="types">The four ways prop firms measure drawdown</h2>
+<p>Every firm's rules page says "maximum drawdown" or "max loss", but the wording hides four different mechanics. Knowing which one you are on changes how much room you actually have before you size the next trade.</p>
+<table>
+  <tr><th>Type</th><th>Where the floor is</th><th>Firms (check your plan)</th></tr>
+  <tr><td><strong>Static</strong></td><td>Starting balance − max loss. Never moves.</td><td>FTMO 2-Step, FundedNext Stellar, The5ers, E8 Classic, Funding Pips, Alpha Capital Pro</td></tr>
+  <tr><td><strong>Trailing end-of-day</strong></td><td>Highest end-of-day balance − max loss. Moves up each night you close at a new high.</td><td>FTMO 1-Step, Topstep, MyFundedFutures Pro, Apex EOD plans, E8 One, Alpha Capital One</td></tr>
+  <tr><td><strong>Trailing intraday</strong></td><td>Highest equity ever, including open profit you never banked, − max loss.</td><td>Apex intraday plans, MyFundedFutures Rapid</td></tr>
+  <tr><td><strong>Locked trailing</strong></td><td>Trailing, but the floor stops rising at starting balance + $100 (Apex, MFFU) or at starting balance (Topstep, Alpha Capital One).</td><td>Apex, MyFundedFutures, Topstep, Alpha Capital One</td></tr>
+</table>
+<p>The intraday version is the one that surprises people: a trade that went +$1,500 unrealised and closed at +$300 still moved your floor up by $1,500. On a static plan that trade cost you nothing in room.</p>
+
+<h2>Daily loss: it is measured from the day's starting balance, and it can include floating losses</h2>
+<p>At FTMO and FundedNext the daily limit is a percentage of the balance at the daily reset (00:00 CE(S)T at FTMO, server midnight at FundedNext), and the check includes unrealised P&amp;L. That is why the calculator asks for your balance at the start of today and your open P&amp;L: the daily-loss room shown is <em>after</em> counting what is currently floating. Futures firms such as Apex, Topstep and MyFundedFutures generally have no daily loss limit on the evaluation, so the preset shows "none".</p>
+
+<h2>Consistency rules delay you; they rarely fail you</h2>
+<p>A consistency rule says your best single day may not be more than a set share of your total profit – 50% at FTMO and MyFundedFutures, 55% of the profit target at Topstep, 40% on several funded accounts. If your best day is 60% of your total profit, the rule does not fail you; it means you need more profit on other days before the best day "fits". The calculator shows that number so you know how far the pass really is.</p>
+
+<div class="cta-box" id="tracker">
+  <h3>Want this calculated live from your trade log, every day?</h3>
+  <p>The <strong>Trading Journal + Prop Firm Challenge Tracker</strong> does everything on this page automatically from the trades you log: floor and buffer for all four drawdown types, daily-loss check with MFE/MAE, min trading days, consistency, time limit, plus the normal journal – R multiples, win rate, profit factor, expectancy, breakdowns by setup, session and hour, and a 12-month P&amp;L calendar. Excel and Google Sheets, one-time price, no subscription. 19 firm presets with an override column.</p>
+  <div class="cta">
+    <a class="btn" href="https://remoteworksia.gumroad.com/l/trading-journal-prop-firm-tracker" rel="noopener">Get it on Gumroad – 25% launch discount applied</a>
+    <a class="btn secondary" href="https://quarterlyreadyuk.etsy.com/listing/4574037913" rel="noopener">Or on Etsy</a>
+  </div>
+</div>
+
+<h2>How to use the calculator</h2>
+<ol>
+  <li>Choose your firm and plan. If yours is not listed or your plan differs, choose <strong>Custom</strong> and type the rules from your firm's dashboard.</li>
+  <li>Enter your starting balance and your current closed balance.</li>
+  <li>Enter your highest end-of-day balance so far and your highest equity ever (the peak your account reached with open profit). If you do not track the intraday peak, use your highest end-of-day balance – the intraday floor will then be a best case, not a worst case.</li>
+  <li>Enter your balance at the start of today and your open P&amp;L. The daily-loss room updates as you type.</li>
+  <li>Enter your best single day's profit to see the consistency check.</li>
+</ol>
+
+<h2>FAQ</h2>
+<details open><summary>What is the difference between static and trailing drawdown?</summary><p>Static fixes the floor at starting balance minus max loss and it never moves. Trailing moves the floor up as your balance (end-of-day) or your equity including open profit (intraday) makes new highs. Locked trailing stops at the starting balance or starting balance plus $100.</p></details>
+<details><summary>Does the daily loss limit include open trades?</summary><p>At FTMO and FundedNext, yes – floating losses count against the balance at the daily reset. A trade that is deep in drawdown at the reset can breach the limit even if it recovers later.</p></details>
+<details><summary>Does a consistency rule fail my challenge?</summary><p>Usually it delays your pass or payout until the other days have added enough profit. Some funded accounts hold a payout until the rule is met.</p></details>
+<details><summary>Are the presets guaranteed to match my firm?</summary><p>No. They were checked in September 2026 against published rules, but firms change them. Your dashboard is the final word; use Custom if your plan differs, and tell us if a preset is wrong so it gets fixed.</p></details>
+
+<p class="note" style="margin-top:30px">Record-keeping tool, not financial advice. Not affiliated with, endorsed by or connected to any prop firm.</p>
+</article></div></section>
+
+<footer><div class="wrap"><p><strong>QuarterlyReady</strong> · Plain-English spreadsheets for money. <a href="index.html">Home</a> · <a href="https://remoteworksia.gumroad.com" rel="noopener">Gumroad</a> · <a href="https://quarterlyreadyuk.etsy.com" rel="noopener">Etsy</a></p></div></footer>
+
+<script>
+const PRESETS = [{"n": "Custom (enter your own rules)", "t": 0.1, "d": 0.05, "m": 0.1, "y": "Static", "l": "", "md": 0, "c": 0, "tl": 0, "note": "Fill the override column on Settings."}, {"n": "FTMO 2-Step – Phase 1", "t": 0.1, "d": 0.05, "m": 0.1, "y": "Static", "l": "", "md": 4, "c": 50, "tl": 0, "note": "Daily loss vs balance at 00:00 CE(S)T, floating counts. Best Day ≤50% delays pass. ftmo.com/en/trading-objectives"}, {"n": "FTMO 2-Step – Phase 2", "t": 0.05, "d": 0.05, "m": 0.1, "y": "Static", "l": "", "md": 4, "c": 50, "tl": 0, "note": "Same rules, 5% target."}, {"n": "FTMO 1-Step", "t": 0.1, "d": 0.03, "m": 0.1, "y": "Trailing EOD", "l": "", "md": 0, "c": 50, "tl": 0, "note": "Max loss trails the highest 00:00 CE(S)T balance."}, {"n": "FundedNext Stellar 2-Step – Phase 1", "t": 0.08, "d": 0.05, "m": 0.1, "y": "Static", "l": "", "md": 5, "c": 0, "tl": 0, "note": "Daily loss = closed + open P&L today vs initial balance, reset 00:00 server. help.fundednext.com"}, {"n": "FundedNext Stellar 2-Step – Phase 2", "t": 0.05, "d": 0.05, "m": 0.1, "y": "Static", "l": "", "md": 5, "c": 0, "tl": 0, "note": ""}, {"n": "FundedNext Stellar 1-Step", "t": 0.1, "d": 0.03, "m": 0.06, "y": "Static", "l": "", "md": 2, "c": 0, "tl": 0, "note": ""}, {"n": "FundedNext Stellar Lite – Phase 1", "t": 0.08, "d": 0.04, "m": 0.08, "y": "Static", "l": "", "md": 5, "c": 0, "tl": 0, "note": "Phase 2 target 4%."}, {"n": "The5ers High Stakes – Phase 1", "t": 0.1, "d": 0.05, "m": 0.1, "y": "Static", "l": "", "md": 3, "c": 0, "tl": 0, "note": "Min 3 PROFITABLE days (≥0.5% closed). Phase 2 target 5%. the5ers.com"}, {"n": "The5ers Hyper Growth", "t": 0.1, "d": 0.03, "m": 0.06, "y": "Static", "l": "", "md": 0, "c": 0, "tl": 0, "note": "3% daily is a soft pause, not a fail."}, {"n": "MyFundedFutures Pro 50k", "t": 0.06, "d": 0, "m": 0.04, "y": "Trailing EOD", "l": 100, "md": 2, "c": 50, "tl": 0, "note": "$3k target / $2k EOD trailing DD, locks at initial+$100. Consistency 50% in eval. help.myfundedfutures.com"}, {"n": "MyFundedFutures Rapid 50k", "t": 0.06, "d": 0, "m": 0.04, "y": "Trailing intraday", "l": 100, "md": 2, "c": 50, "tl": 0, "note": "Intraday trailing on equity high-water mark."}, {"n": "Apex Trader Funding 50k – EOD", "t": 0.06, "d": 0, "m": 0.04, "y": "Trailing EOD", "l": 100, "md": 0, "c": 0, "tl": 0, "note": "Threshold reported $2k for 50k (check your plan). PA locks at initial+$100; PA consistency 50%."}, {"n": "Apex Trader Funding 50k – Intraday", "t": 0.06, "d": 0, "m": 0.04, "y": "Trailing intraday", "l": 100, "md": 0, "c": 0, "tl": 0, "note": "Real-time trailing incl. unrealised P&L."}, {"n": "Topstep 50k Combine", "t": 0.06, "d": 0, "m": 0.04, "y": "Trailing EOD", "l": 0, "md": 2, "c": 55, "tl": 0, "note": "MLL trails EOD balance, locks at starting balance. Consistency: best day ≤55% of profit TARGET (tracker uses % of profit – see note). help.topstep.com"}, {"n": "E8 Markets – E8 One", "t": 0.06, "d": 0.03, "m": 0.04, "y": "Trailing EOD", "l": "", "md": 0, "c": 0, "tl": 0, "note": "4% dynamic DD on highest closed balance. Funded: 40% best-day rule."}, {"n": "E8 Markets – Classic", "t": 0.08, "d": 0.04, "m": 0.08, "y": "Static", "l": "", "md": 0, "c": 0, "tl": 0, "note": "Phase 2 target 4%."}, {"n": "Funding Pips 2-Step – Phase 1", "t": 0.08, "d": 0.05, "m": 0.1, "y": "Static", "l": "", "md": 3, "c": 0, "tl": 0, "note": "Phase 2 target 5%. Check current terms – rules change often."}, {"n": "Alpha Capital Group Pro 10% – Phase 1", "t": 0.1, "d": 0.05, "m": 0.1, "y": "Static", "l": "", "md": 3, "c": 0, "tl": 0, "note": "Reset 00:00 GMT+3. Phase 2 target 5%. Funded 40% best-day rule."}, {"n": "Alpha Capital Group One", "t": 0.1, "d": 0.04, "m": 0.06, "y": "Trailing EOD", "l": 0, "md": 1, "c": 0, "tl": 0, "note": "6% trailing, locks at initial once +6%. Daily vs max(balance, equity)."}];
+const $ = id => document.getElementById(id);
+const sel = $('preset');
+PRESETS.forEach((p,i) => { const o = document.createElement('option'); o.value = i; o.textContent = p.n; sel.appendChild(o); });
+sel.value = 1;
+const fmt = n => (n<0?'−':'') + '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0});
+const pct = n => (n*100).toFixed(1).replace(/\.0$/,'') + '%';
+function rules() {
+  const p = PRESETS[+sel.value];
+  if (+sel.value === 0) return {t:+$('c_target').value/100, d:+$('c_daily').value/100, m:+$('c_max').value/100, y:$('c_type').value, l:$('c_lock').value===''?'':+$('c_lock').value, c:+$('c_cons').value, md:0, n:'Custom'};
+  return p;
+}
+function calc() {
+  $('customRow').style.display = +sel.value === 0 ? 'flex' : 'none';
+  const r = rules();
+  const init = +$('initial').value || 0, bal = +$('balance').value || 0, hwm = Math.max(+$('hwm').value || 0, init), peak = Math.max(+$('peak').value || 0, hwm), ds = +$('daystart').value || init, open = +$('openpl').value || 0, best = +$('bestday').value || 0;
+  const equity = bal + open, maxLoss = init * r.m;
+  let floor, basis;
+  if (r.y === 'Static') { floor = init - maxLoss; basis = 'starting balance'; }
+  else if (r.y === 'Trailing EOD') { floor = hwm - maxLoss; basis = 'highest end-of-day balance'; }
+  else { floor = peak - maxLoss; basis = 'highest equity incl. open profit'; }
+  let locked = false;
+  if (r.l !== '' && r.y !== 'Static') { const cap = init + r.l; if (floor >= cap) { floor = cap; locked = true; } }
+  const buffer = equity - floor;
+  const target = init * (1 + r.t), toTarget = target - bal, profit = bal - init;
+  const dailyLimit = r.d > 0 ? ds * r.d : null;
+  const todayPl = equity - ds;
+  const dailyRoom = dailyLimit === null ? null : dailyLimit + todayPl;
+  let consNeed = null, consOk = true;
+  if (r.c > 0 && best > 0) { const need = best / (r.c/100); consOk = profit >= need - 0.005; consNeed = Math.max(0, need - profit); }
+  const k = [];
+  k.push({l:'Drawdown type', v:r.y + (r.l!==''&&r.y!=='Static'?' · locked at +'+fmt(r.l):''), s:'Floor follows the ' + basis});
+  k.push({l:'Max-loss floor', v:fmt(floor), s:(locked?'Locked – it will not rise further':'Max loss '+pct(r.m)+' = '+fmt(maxLoss)), c:''});
+  k.push({l:'Buffer above floor', v:fmt(buffer), s:'Equity '+fmt(equity)+' − floor', c: buffer<=0?'warn':(buffer < maxLoss*0.3?'amber':'ok')});
+  if (dailyLimit === null) k.push({l:"Today's daily-loss room", v:'No daily limit', s:'This plan has no daily loss rule', c:''});
+  else k.push({l:"Today's daily-loss room", v:fmt(dailyRoom), s:'Limit '+pct(r.d)+' of day-start = '+fmt(dailyLimit)+'; today so far '+fmt(todayPl)+' incl. open P&L', c: dailyRoom<=0?'warn':(dailyRoom<dailyLimit*0.3?'amber':'ok')});
+  k.push({l:'Profit target', v:fmt(target), s: toTarget<=0 ? 'Reached – '+fmt(-toTarget)+' above target' : fmt(toTarget)+' still needed ('+pct(r.t)+' target)', c: toTarget<=0?'ok':''});
+  if (r.c > 0) k.push({l:'Consistency rule '+r.c+'%', v: best<=0?'—':(consOk?'OK':'Delayed'), s: best<=0?'Enter your best day':(consOk?'Best day is '+pct(profit>0?best/profit:1)+' of profit':'Best day is '+pct(profit>0?best/profit:1)+' of profit – need '+fmt(consNeed)+' more profit on other days'), c: best<=0?'':(consOk?'ok':'amber')});
+  else k.push({l:'Consistency rule', v:'None', s:'This plan has no best-day rule', c:''});
+  if (r.md > 0) k.push({l:'Minimum trading days', v:r.md, s:'Days with at least one closed trade (some firms: profitable days)', c:''});
+  $('kpis').innerHTML = k.map(x => '<div class="kpi '+(x.c||'')+'"><div class="l">'+x.l+'</div><div class="v">'+x.v+'</div><div class="s">'+x.s+'</div></div>').join('');
+  let st, sc;
+  if (buffer <= 0) { st = 'BREACHED – equity is at or below the max-loss floor'; sc = 'warn'; }
+  else if (dailyRoom !== null && dailyRoom <= 0) { st = 'BREACHED – daily loss limit hit today'; sc = 'warn'; }
+  else if (toTarget <= 0 && consOk) { st = 'TARGET REACHED' + (r.md>0?' – confirm minimum trading days ('+r.md+')':''); sc = 'ok'; }
+  else if (toTarget <= 0 && !consOk) { st = 'TARGET REACHED but consistency rule not met – ' + fmt(consNeed) + ' more profit needed on other days'; sc = 'amber'; }
+  else if (buffer < maxLoss*0.3 || (dailyRoom !== null && dailyRoom < dailyLimit*0.3)) { st = 'DANGER – less than 30% of your room left'; sc = 'amber'; }
+  else { st = 'IN PROGRESS – ' + fmt(toTarget) + ' to target, ' + fmt(buffer) + ' above the floor'; sc = ''; }
+  $('status').textContent = st; $('status').className = 'status ' + sc;
+  $('rules').textContent = +sel.value === 0 ? 'Custom rules – enter them above.' : 'Preset rules: target '+pct(r.t)+' · daily loss '+(r.d>0?pct(r.d):'none')+' · max loss '+pct(r.m)+' · '+r.y+(r.l!==''?' (locks at initial + $'+r.l+')':'')+(r.md>0?' · min '+r.md+' days':'')+(r.c>0?' · consistency '+r.c+'%':'')+(r.note?' — '+r.note:'');
+}
+document.querySelectorAll('#calc input, #calc select').forEach(e => e.addEventListener('input', calc));
+calc();
+</script>
+</body>
+</html>
